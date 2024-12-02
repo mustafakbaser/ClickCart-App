@@ -122,7 +122,7 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-2 text-gray-300 text-sm">
                 <Mail size={16} />
-                <span>support@clickcart.com</span>
+                <span>iletisim@mustafabaser.net</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-300 text-sm">
                 <MapPin size={16} />
