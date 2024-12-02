@@ -7,7 +7,7 @@ import { LogIn } from 'lucide-react';
 
 export function Login() {
   const navigate = useNavigate();
-  const signIn = useAuthStore((state) => state.signIn);
+  const { signIn, error: authError } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,7 +22,7 @@ export function Login() {
       await signIn(email, password);
       navigate('/');
     } catch (err) {
-      setError('Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.');
+      setError(authError || 'Failed to sign in. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -33,7 +33,7 @@ export function Login() {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
           <LogIn className="h-8 w-8 text-blue-600" />
-          <h1 className="text-2xl font-bold ml-2">Giriş Yap</h1>
+          <h1 className="text-2xl font-bold ml-2">Sign In</h1>
         </div>
 
         {error && (
@@ -45,7 +45,7 @@ export function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              E-posta
+              Email
             </label>
             <Input
               id="email"
@@ -53,13 +53,13 @@ export function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="ornek@email.com"
+              placeholder="john@example.com"
             />
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Şifre
+              Password
             </label>
             <Input
               id="password"
@@ -76,14 +76,14 @@ export function Login() {
             className="w-full"
             disabled={loading}
           >
-            {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+            {loading ? 'Signing In...' : 'Sign In'}
           </Button>
         </form>
 
         <p className="mt-4 text-center text-sm text-gray-600">
-          Hesabınız yok mu?{' '}
+          Don't have an account?{' '}
           <Link to="/register" className="text-blue-600 hover:text-blue-700 font-medium">
-            Kayıt Ol
+            Create Account
           </Link>
         </p>
       </div>

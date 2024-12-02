@@ -1,31 +1,32 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../store/useAuthStore';
+import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { UserPlus } from 'lucide-react';
 
 export function Register() {
   const navigate = useNavigate();
-  const signUp = useAuthStore((state) => state.signUp);
+  const { signUp, loading, error: authError } = useAuth();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
+    setSuccess('');
 
     try {
       await signUp(email, password, fullName);
-      navigate('/');
+      setSuccess('Registration successful! Please check your email to confirm your account.');
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } catch (err) {
-      setError('Kayıt oluşturulamadı. Lütfen bilgilerinizi kontrol edin.');
-    } finally {
-      setLoading(false);
+      setError(authError || 'Failed to create account. Please check your information.');
     }
   };
 
@@ -34,7 +35,7 @@ export function Register() {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
           <UserPlus className="h-8 w-8 text-blue-600" />
-          <h1 className="text-2xl font-bold ml-2">Kayıt Ol</h1>
+          <h1 className="text-2xl font-bold ml-2">Create Account</h1>
         </div>
 
         {error && (
@@ -43,10 +44,16 @@ export function Register() {
           </div>
         )}
 
+        {success && (
+          <div className="bg-green-50 text-green-500 p-3 rounded-md mb-4">
+            {success}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-              Ad Soyad
+              Full Name
             </label>
             <Input
               id="fullName"
@@ -60,7 +67,7 @@ export function Register() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              E-posta
+              Email
             </label>
             <Input
               id="email"
@@ -68,13 +75,13 @@ export function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="ornek@email.com"
+              placeholder="john@example.com"
             />
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Şifre
+              Password
             </label>
             <Input
               id="password"
@@ -92,14 +99,14 @@ export function Register() {
             className="w-full"
             disabled={loading}
           >
-            {loading ? 'Kayıt oluşturuluyor...' : 'Kayıt Ol'}
+            {loading ? 'Creating Account...' : 'Create Account'}
           </Button>
         </form>
 
         <p className="mt-4 text-center text-sm text-gray-600">
-          Zaten hesabınız var mı?{' '}
+          Already have an account?{' '}
           <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-            Giriş Yap
+            Sign In
           </Link>
         </p>
       </div>
