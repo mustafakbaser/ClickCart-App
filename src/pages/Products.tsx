@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getProducts } from '../services/productService';
-import { ProductCard } from '../components/ProductCard';
-import { Product } from '../types';
-import { Search } from 'lucide-react';
-import { Input } from '../components/ui/Input';
+import { Product, SortOption, PaginationInfo } from '../types';
+import { ProductGrid } from '../components/products/ProductGrid';
+import { ProductFilters } from '../components/products/ProductFilters';
+import { ProductSort } from '../components/products/ProductSort';
+import { Pagination } from '../components/products/Pagination';
+
+const PAGE_SIZE = 12;
 
 export function Products() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -11,30 +14,51 @@ export function Products() {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    currentPage: 1,
+    totalPages: 1,
+    pageSize: PAGE_SIZE,
+    totalItems: 0,
+  });
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [searchTerm, selectedCategory, sortBy, pagination.currentPage]);
 
   async function loadProducts() {
     try {
-      const data = await getProducts();
+      setLoading(true);
+      const { data, totalCount } = await getProducts({
+        page: pagination.currentPage,
+        pageSize: PAGE_SIZE,
+        sortBy,
+        category: selectedCategory === 'all' ? undefined : selectedCategory,
+        search: searchTerm,
+      });
+
       setProducts(data);
+      setPagination(prev => ({
+        ...prev,
+        totalItems: totalCount,
+        totalPages: Math.ceil(totalCount / PAGE_SIZE),
+      }));
     } catch (err) {
-      setError('Ürünler yüklenirken bir hata oluştu.');
+      setError('Failed to load products');
     } finally {
       setLoading(false);
     }
   }
 
-  const categories = ['all', ...new Set(products.map((p) => p.category))];
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(products.map((p) => p.category));
+    return Array.from(uniqueCategories);
+  }, [products]);
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const handlePageChange = (page: number) => {
+    setPagination(prev => ({ ...prev, currentPage: page }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (loading) {
     return (
@@ -53,45 +77,26 @@ export function Products() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Ürünler</h1>
-        <div className="flex items-center space-x-4 w-full sm:w-auto">
-          <div className="relative flex-1 sm:flex-none sm:min-w-[300px]">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-              type="search"
-              placeholder="Ürün ara..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category === 'all' ? 'Tüm Kategoriler' : category}
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold text-gray-900 mb-8">Products</h1>
+      
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8">
+        <ProductFilters
+          categories={categories}
+          selectedCategory={selectedCategory}
+          searchTerm={searchTerm}
+          onCategoryChange={setSelectedCategory}
+          onSearchChange={setSearchTerm}
+        />
+        <ProductSort sortBy={sortBy} onSortChange={setSortBy} />
       </div>
 
-      {filteredProducts.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">Ürün bulunamadı.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      )}
+      <ProductGrid products={products} />
+      
+      <Pagination
+        {...pagination}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
