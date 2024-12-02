@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCartStore } from '../store/useCartStore';
 import { Button } from '../components/ui/Button';
 import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { formatCurrency } from '../lib/utils';
 
 export function Cart() {
   const { items, removeItem, updateQuantity, total, clearCart } = useCartStore();
@@ -48,10 +49,7 @@ export function Cart() {
                     ))}
                   </select>
                   <span className="text-lg font-semibold">
-                    {(item.price * item.quantity).toLocaleString('tr- TR', {
-                      style: 'currency',
-                      currency: 'TRY',
-                    })}
+                    {formatCurrency(item.price * item.quantity)}
                   </span>
                 </div>
               </div>
@@ -69,10 +67,7 @@ export function Cart() {
           <div className="flex items-center justify-between mb-4">
             <span className="text-lg font-medium text-gray-900">Toplam</span>
             <span className="text-2xl font-bold text-gray-900">
-              {total.toLocaleString('tr-TR', {
-                style: 'currency',
-                currency: 'TRY',
-              })}
+              {formatCurrency(total)}
             </span>
           </div>
 

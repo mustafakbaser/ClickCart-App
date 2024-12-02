@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { User, Package } from 'lucide-react';
+import { formatCurrency } from '../lib/utils';
 
 export function Profile() {
   const user = useAuthStore((state) => state.user);
@@ -134,10 +135,7 @@ export function Profile() {
                       Sipariş No: {order.id}
                     </span>
                     <p className="font-medium text-gray-900">
-                      {order.total.toLocaleString('tr-TR', {
-                        style: 'currency',
-                        currency: 'TRY',
-                      })}
+                      {formatCurrency(order.total)}
                     </p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-sm ${

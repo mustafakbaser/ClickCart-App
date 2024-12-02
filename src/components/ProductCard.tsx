@@ -3,6 +3,7 @@ import { Product } from '../types';
 import { Button } from './ui/Button';
 import { useCartStore } from '../store/useCartStore';
 import { ShoppingCart } from 'lucide-react';
+import { formatCurrency } from '../lib/utils';
 
 interface ProductCardProps {
   product: Product;
@@ -29,10 +30,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="mt-1 text-gray-600 line-clamp-2">{product.description}</p>
         <div className="mt-4 flex items-center justify-between">
           <span className="text-xl font-bold text-gray-900">
-            {product.price.toLocaleString('tr-TR', {
-              style: 'currency',
-              currency: 'TRY',
-            })}
+            {formatCurrency(product.price)}
           </span>
           <Button
             size="sm"

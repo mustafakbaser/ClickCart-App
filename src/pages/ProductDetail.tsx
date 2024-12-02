@@ -6,6 +6,7 @@ import { Button } from '../components/ui/Button';
 import { useCartStore } from '../store/useCartStore';
 import { ShoppingCart, Package, Shield, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { formatCurrency } from '../lib/utils';
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -74,10 +75,7 @@ export function ProductDetail() {
 
           <div className="flex items-center justify-between">
             <span className="text-3xl font-bold text-gray-900">
-              {product.price.toLocaleString('tr-TR', {
-                style: 'currency',
-                currency: 'TRY',
-              })}
+              {formatCurrency(product.price)}
             </span>
             <span className="text-sm text-gray-500">
               Stok: {product.stock} adet
