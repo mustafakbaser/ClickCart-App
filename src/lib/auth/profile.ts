@@ -19,7 +19,8 @@ export async function getProfile(userId: string): Promise<Profile | null> {
 
 export async function updateProfile(userId: string, updates: ProfileUpdate): Promise<Error | null> {
   try {
-    const { error } = await supabase
+    // Update profile in the database
+    const { error: profileError } = await supabase
       .from('profiles')
       .update({
         ...updates,
@@ -27,8 +28,9 @@ export async function updateProfile(userId: string, updates: ProfileUpdate): Pro
       })
       .eq('id', userId);
 
-    if (error) throw error;
+    if (profileError) throw profileError;
     
+    // Update user metadata
     const { error: updateError } = await supabase.auth.updateUser({
       data: updates
     });

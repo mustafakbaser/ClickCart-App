@@ -94,6 +94,22 @@ export async function getProduct(id: string): Promise<Product | null> {
   }
 }
 
+export async function getRelatedProducts(category: string): Promise<Product[]> {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('category', category)
+      .limit(5);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching related products:', error);
+    return [];
+  }
+}
+
 export async function getFeaturedProducts(): Promise<Product[]> {
   try {
     const { data, error } = await supabase

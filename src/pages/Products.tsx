@@ -7,7 +7,6 @@ import { ProductFilters } from '../components/products/ProductFilters';
 import { ProductSort } from '../components/products/ProductSort';
 import { Pagination } from '../components/products/Pagination';
 import { useSearch } from '../hooks/useSearch';
-import { Footer } from '../components/layout/Footer';
 
 const PAGE_SIZE = 12;
 
@@ -119,7 +118,6 @@ export function Products() {
           />
         </>
       )}
-      <Footer />
     </div>
   );
 }

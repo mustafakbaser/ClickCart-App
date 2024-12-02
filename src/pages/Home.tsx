@@ -2,7 +2,6 @@ import { HeroCarousel } from '../components/home/HeroCarousel';
 import { FlashDeals } from '../components/home/FlashDeals';
 import { FeaturedCategories } from '../components/home/FeaturedCategories';
 import { FeaturedProducts } from '../components/FeaturedProducts';
-import { Footer } from '../components/layout/Footer';
 
 export function Home() {
   return (
@@ -16,7 +15,6 @@ export function Home() {
           <FeaturedProducts />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

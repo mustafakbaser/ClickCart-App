@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
+import { Layout } from './components/layout/Layout';
 import { AuthProvider } from './components/AuthProvider';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
@@ -14,9 +15,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-50">
+        <div className="bg-gray-50">
           <Navbar />
-          <main className="pt-16"> {/* Add padding-top to account for fixed navbar */}
+          <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />
@@ -33,7 +34,7 @@ function App() {
                 }
               />
             </Routes>
-          </main>
+          </Layout>
         </div>
       </Router>
     </AuthProvider>
