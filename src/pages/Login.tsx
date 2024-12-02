@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { LogIn } from 'lucide-react';
+import { Footer } from '../components/layout/Footer';
 
 export function Login() {
   const navigate = useNavigate();
@@ -87,6 +88,7 @@ export function Login() {
           </Link>
         </p>
       </div>
+      <Footer />
     </div>
   );
 }

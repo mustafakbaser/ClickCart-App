@@ -3,6 +3,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { ProfileForm } from '../components/profile/ProfileForm';
 import { OrderList } from '../components/profile/OrderList';
 import { User, Package } from 'lucide-react';
+import { Footer } from '../components/layout/Footer';
 
 export function Profile() {
   const user = useAuthStore((state) => state.user);
@@ -39,6 +40,7 @@ export function Profile() {
         </div>
         <OrderList userId={user.id} />
       </div>
+      <Footer />
     </div>
   );
 }

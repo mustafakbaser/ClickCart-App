@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { UserPlus } from 'lucide-react';
+import { Footer } from '../components/layout/Footer';
 
 export function Register() {
   const navigate = useNavigate();
@@ -110,6 +111,7 @@ export function Register() {
           </Link>
         </p>
       </div>
+      <Footer />
     </div>
   );
 }

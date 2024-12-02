@@ -16,7 +16,7 @@ function App() {
       <Router>
         <div className="min-h-screen bg-gray-50">
           <Navbar />
-          <main className="container mx-auto px-4 py-8">
+          <main className="pt-16"> {/* Add padding-top to account for fixed navbar */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />

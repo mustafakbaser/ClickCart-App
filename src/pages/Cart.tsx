@@ -3,6 +3,7 @@ import { useCartStore } from '../store/useCartStore';
 import { Button } from '../components/ui/Button';
 import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { formatCurrency } from '../lib/utils';
+import { Footer } from '../components/layout/Footer';
 
 export function Cart() {
   const { items, removeItem, updateQuantity, total, clearCart } = useCartStore();
@@ -87,6 +88,7 @@ export function Cart() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

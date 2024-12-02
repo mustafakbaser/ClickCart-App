@@ -7,6 +7,7 @@ import { useCartStore } from '../store/useCartStore';
 import { ShoppingCart, Package, Shield, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../lib/utils';
+import { Footer } from '../components/layout/Footer';
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -113,6 +114,7 @@ export function ProductDetail() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
