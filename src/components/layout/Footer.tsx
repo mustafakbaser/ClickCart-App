@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react'
 
 export function Footer() {
   return (
-    <footer className="bg-[#003840] text-white mt-auto">
+    <footer className="bg-brand-darkest text-white mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -15,21 +15,21 @@ export function Footer() {
             <div className="flex space-x-4 mt-4">
               <a 
                 href="#" 
-                className="text-gray-300 hover:text-[#02A676] transition-colors"
+                className="text-gray-300 hover:text-brand-primary transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
               </a>
               <a 
                 href="#" 
-                className="text-gray-300 hover:text-[#02A676] transition-colors"
+                className="text-gray-300 hover:text-brand-primary transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter size={20} />
               </a>
               <a 
                 href="#" 
-                className="text-gray-300 hover:text-[#02A676] transition-colors"
+                className="text-gray-300 hover:text-brand-primary transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
@@ -43,7 +43,7 @@ export function Footer() {
               <li>
                 <Link 
                   to="/products" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Products
                 </Link>
@@ -51,7 +51,7 @@ export function Footer() {
               <li>
                 <Link 
                   to="/deals" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Special Deals
                 </Link>
@@ -59,7 +59,7 @@ export function Footer() {
               <li>
                 <Link 
                   to="/new-arrivals" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   New Arrivals
                 </Link>
@@ -67,7 +67,7 @@ export function Footer() {
               <li>
                 <Link 
                   to="/profile" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   My Account
                 </Link>
@@ -81,7 +81,7 @@ export function Footer() {
               <li>
                 <a 
                   href="#" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Shipping Policy
                 </a>
@@ -89,7 +89,7 @@ export function Footer() {
               <li>
                 <a 
                   href="#" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Returns & Exchanges
                 </a>
@@ -97,7 +97,7 @@ export function Footer() {
               <li>
                 <a 
                   href="#" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   FAQ
                 </a>
@@ -105,7 +105,7 @@ export function Footer() {
               <li>
                 <a 
                   href="#" 
-                  className="text-gray-300 hover:text-[#02A676] transition-colors text-sm"
+                  className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Privacy Policy
                 </a>

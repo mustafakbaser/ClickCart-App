@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import { Tabs } from '../components/profile/Tabs';
 import { PersonalInfo } from '../components/profile/PersonalInfo';
@@ -21,8 +22,16 @@ const tabs = [
 ];
 
 export function Profile() {
-  const [activeTab, setActiveTab] = useState('personal');
+  const [searchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'personal');
   const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && tabs.some(t => t.id === tab)) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   if (!user) {
     return (

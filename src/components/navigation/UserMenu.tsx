@@ -39,7 +39,7 @@ export function UserMenu({ user }: UserMenuProps) {
           </Link>
 
           <Link
-            to="/orders"
+            to="/profile?tab=orders"
             className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <Package className="h-4 w-4" />
@@ -47,7 +47,7 @@ export function UserMenu({ user }: UserMenuProps) {
           </Link>
 
           <Link
-            to="/wishlist"
+            to="/profile?tab=wishlist"
             className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <Heart className="h-4 w-4" />
