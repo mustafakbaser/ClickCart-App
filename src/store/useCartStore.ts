@@ -1,53 +1,100 @@
 import { create } from 'zustand';
 import { CartItem, Product } from '../types';
+import { 
+  getCart, 
+  addToCart, 
+  updateCartItemQuantity, 
+  removeFromCart, 
+  clearCart as clearCartService 
+} from '../services/cartService';
 
 interface CartState {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  clearCart: () => void;
+  loading: boolean;
+  error: string | null;
   total: number;
+  loadCart: () => Promise<void>;
+  addItem: (product: Product, quantity?: number) => Promise<void>;
+  removeItem: (productId: string) => Promise<void>;
+  updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  clearCart: () => Promise<void>;
 }
 
-export const useCartStore = create<CartState>((set) => ({
+export const useCartStore = create<CartState>((set, get) => ({
   items: [],
+  loading: false,
+  error: null,
   total: 0,
-  addItem: (product) =>
-    set((state) => {
-      const existingItem = state.items.find((item) => item.id === product.id);
-      if (existingItem) {
-        return {
-          items: state.items.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          ),
-          total: state.total + product.price,
-        };
+
+  loadCart: async () => {
+    set({ loading: true, error: null });
+    try {
+      const items = await getCart();
+      const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      set({ items, total, loading: false });
+    } catch (error) {
+      console.error('Cart loading error:', error);
+      set({ error: 'Failed to load cart', loading: false });
+    }
+  },
+
+  addItem: async (product: Product, quantity: number = 1) => {
+    set({ loading: true, error: null });
+    try {
+      const success = await addToCart(product, quantity);
+      if (success) {
+        await get().loadCart();
+      } else {
+        throw new Error('Failed to add item to cart');
       }
-      return {
-        items: [...state.items, { ...product, quantity: 1 }],
-        total: state.total + product.price,
-      };
-    }),
-  removeItem: (productId) =>
-    set((state) => ({
-      items: state.items.filter((item) => item.id !== productId),
-      total: state.items.reduce((total, item) => 
-        item.id !== productId ? total - (item.price * item.quantity) : total, 
-        state.total
-      ),
-    })),
-  updateQuantity: (productId, quantity) =>
-    set((state) => ({
-      items: state.items.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
-      ),
-      total: state.items.reduce((total, item) => 
-        total + (item.id === productId ? item.price * quantity : item.price * item.quantity), 
-        0
-      ),
-    })),
-  clearCart: () => set({ items: [], total: 0 }),
+    } catch (error) {
+      console.error('Add to cart error:', error);
+      set({ error: 'Failed to add item to cart', loading: false });
+    }
+  },
+
+  removeItem: async (productId: string) => {
+    set({ loading: true, error: null });
+    try {
+      const success = await removeFromCart(productId);
+      if (success) {
+        await get().loadCart();
+      } else {
+        throw new Error('Failed to remove item from cart');
+      }
+    } catch (error) {
+      console.error('Remove from cart error:', error);
+      set({ error: 'Failed to remove item from cart', loading: false });
+    }
+  },
+
+  updateQuantity: async (productId: string, quantity: number) => {
+    set({ loading: true, error: null });
+    try {
+      const success = await updateCartItemQuantity(productId, quantity);
+      if (success) {
+        await get().loadCart();
+      } else {
+        throw new Error('Failed to update quantity');
+      }
+    } catch (error) {
+      console.error('Update quantity error:', error);
+      set({ error: 'Failed to update quantity', loading: false });
+    }
+  },
+
+  clearCart: async () => {
+    set({ loading: true, error: null });
+    try {
+      const success = await clearCartService();
+      if (success) {
+        set({ items: [], total: 0, loading: false });
+      } else {
+        throw new Error('Failed to clear cart');
+      }
+    } catch (error) {
+      console.error('Clear cart error:', error);
+      set({ error: 'Failed to clear cart', loading: false });
+    }
+  },
 }));
