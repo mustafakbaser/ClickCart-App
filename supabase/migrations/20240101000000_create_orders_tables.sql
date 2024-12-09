@@ -3,6 +3,10 @@ create table if not exists public.orders (
     id uuid default gen_random_uuid() primary key,
     user_id uuid references auth.users on delete cascade not null,
     total decimal(10,2) not null,
+    shipping_address jsonb not null,
+    billing_address jsonb not null,
+    shipping_method text not null,
+    payment_method text not null,
     status text check (status in ('pending', 'processing', 'shipped', 'delivered')) not null default 'pending',
     created_at timestamptz default timezone('utc'::text, now()) not null,
     updated_at timestamptz default timezone('utc'::text, now()) not null

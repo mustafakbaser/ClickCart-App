@@ -1,6 +1,7 @@
 import { supabase } from '../lib/supabase';
 import { CartItem } from '../types';
 import { CheckoutFormData, OrderSummary } from '../types/checkout';
+import * as orderService from './orderService';
 
 export async function createOrder(
   items: CartItem[],
@@ -12,47 +13,28 @@ export async function createOrder(
 
     const orderSummary = calculateOrderSummary(items, formData.shippingMethod);
 
-    const { data: order, error: orderError } = await supabase
-      .from('orders')
-      .insert({
-        user_id: user.id,
-        total: orderSummary.total,
-        shipping_address: formData.shippingAddress,
-        billing_address: formData.billingAddress.sameAsShipping 
-          ? formData.shippingAddress 
-          : formData.billingAddress,
-        shipping_method: formData.shippingMethod,
-        payment_method: formData.paymentMethod,
-        status: 'pending'
-      })
-      .select('id')
-      .single();
-
-    if (orderError) throw orderError;
-
-    // Create order items
-    const { error: itemsError } = await supabase
-      .from('order_items')
-      .insert(
-        items.map(item => ({
-          order_id: order.id,
-          product_id: item.id,
-          quantity: item.quantity,
-          price: item.price
-        }))
-      );
-
-    if (itemsError) throw itemsError;
+    const result = await orderService.createOrder(user.id, {
+      items: items.map(item => ({
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total: orderSummary.total,
+      shipping_address: formData.shippingAddress,
+      billing_address: formData.billingAddress.sameAsShipping 
+        ? formData.shippingAddress 
+        : formData.billingAddress,
+      shipping_method: formData.shippingMethod,
+      payment_method: formData.paymentMethod
+    });
 
     // Clear cart after successful order
-    const { error: cartError } = await supabase
+    await supabase
       .from('cart_items')
       .delete()
       .eq('user_id', user.id);
 
-    if (cartError) throw cartError;
-
-    return { orderId: order.id };
+    return { orderId: result.orderId };
   } catch (error) {
     console.error('Error creating order:', error);
     return { error: 'Failed to create order' };

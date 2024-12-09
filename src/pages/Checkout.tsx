@@ -132,7 +132,7 @@ export function Checkout() {
                     </p>
                   </div>
                   <span className="text-sm font-medium text-gray-900">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatCurrency(item.price * item.quantity)}
                   </span>
                 </div>
               ))}
@@ -140,7 +140,7 @@ export function Checkout() {
               <div className="border-t pt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal</span>
-                  <span className="font-medium">${total.toFixed(2)}</span>
+                  <span className="font-medium">{formatCurrency(total)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
@@ -152,7 +152,7 @@ export function Checkout() {
                 </div>
                 <div className="flex justify-between text-lg font-bold border-t pt-2">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>{formatCurrency(total)}</span>
                 </div>
               </div>
             </div>
