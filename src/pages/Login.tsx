@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -7,11 +7,16 @@ import { LogIn } from 'lucide-react';
 
 export function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { signIn, error: authError } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Get the redirect URL from query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get('redirect') || '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +25,7 @@ export function Login() {
 
     try {
       await signIn(email, password);
-      navigate('/');
+      navigate(redirectTo);
     } catch (err) {
       setError(authError || 'Failed to sign in. Please check your credentials.');
     } finally {
@@ -82,7 +87,10 @@ export function Login() {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Don't have an account?{' '}
-          <Link to="/register" className="text-blue-600 hover:text-blue-700 font-medium">
+          <Link 
+            to={`/register${redirectTo !== '/' ? `?redirect=${redirectTo}` : ''}`}
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
             Create Account
           </Link>
         </p>

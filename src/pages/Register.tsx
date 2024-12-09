@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -7,12 +7,17 @@ import { UserPlus } from 'lucide-react';
 
 export function Register() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { signUp, loading, error: authError } = useAuth();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  // Get the redirect URL from query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get('redirect') || '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +28,7 @@ export function Register() {
       await signUp(email, password, fullName);
       setSuccess('Registration successful! Please check your email to confirm your account.');
       setTimeout(() => {
-        navigate('/login');
+        navigate(`/login?redirect=${redirectTo}`);
       }, 3000);
     } catch (err) {
       setError(authError || 'Failed to create account. Please check your information.');
@@ -105,7 +110,10 @@ export function Register() {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+          <Link 
+            to={`/login${redirectTo !== '/' ? `?redirect=${redirectTo}` : ''}`}
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
             Sign In
           </Link>
         </p>
