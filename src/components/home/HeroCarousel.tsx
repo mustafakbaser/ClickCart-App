@@ -130,7 +130,7 @@ export function HeroCarousel() {
                 transition={{ delay: 0.5 }}
               >
                 <Link to={slides[currentSlide].link}>
-                  <Button size="lg" className="bg-[#02A676] hover:bg-[#007369] text-white">
+                  <Button size="lg" className=" bg-brand-darkest hover:bg-brand-primary text-white">
                     Shop Now
                   </Button>
                 </Link>

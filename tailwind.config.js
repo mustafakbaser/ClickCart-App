@@ -5,11 +5,11 @@ export default {
     extend: {
       colors: {
         brand: {
-          darkest: '#003840',
-          darker: '#005A5B',
-          dark: '#007369',
-          medium: '#008C72',
-          primary: '#02A676',
+          darkest: '#0A1F33',
+          darker: '#102A44',
+          dark: '#183656',
+          medium: '#22476B',
+          primary: '#2C5B88',
         }
       }
     },

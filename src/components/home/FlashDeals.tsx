@@ -45,7 +45,7 @@ export function FlashDeals() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
             <h2 className="text-2xl font-bold text-gray-900">Flash Deals</h2>
-            <div className="flex items-center space-x-2 bg-[#02A676] text-white px-3 py-1 rounded-full">
+            <div className="flex items-center space-x-2 bg-brand-primary hover:bg-brand-dark text-white px-3 py-1 rounded-full">
               <Timer className="h-4 w-4" />
               <span className="text-sm font-medium">
                 {String(timeLeft.hours).padStart(2, '0')}:
@@ -56,7 +56,7 @@ export function FlashDeals() {
           </div>
           <Link
             to="/products"
-            className="text-[#02A676] hover:text-[#007369] flex items-center space-x-1"
+            className="text-brand-primary hover:text-brand-dark flex items-center space-x-1"
           >
             <span>View All</span>
             <ArrowRight className="h-4 w-4" />
