@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Layout } from './components/layout/Layout';
 import { AuthProvider } from './components/AuthProvider';
+import { ScrollToTop } from './components/ScrollToTop';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
 import { ProductDetail } from './pages/ProductDetail';
@@ -11,12 +12,14 @@ import { OrderConfirmation } from './pages/OrderConfirmation';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
+import { NotFound } from './pages/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <div className="bg-gray-50">
           <Navbar />
           <Layout>
@@ -51,6 +54,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
         </div>

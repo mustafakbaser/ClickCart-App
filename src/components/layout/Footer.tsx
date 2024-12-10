@@ -14,21 +14,27 @@ export function Footer() {
             </p>
             <div className="flex space-x-4 mt-4">
               <a 
-                href="#" 
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-300 hover:text-brand-primary transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
               </a>
               <a 
-                href="#" 
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-300 hover:text-brand-primary transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter size={20} />
               </a>
               <a 
-                href="#" 
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-300 hover:text-brand-primary transition-colors"
                 aria-label="Instagram"
               >
@@ -42,23 +48,23 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  to="/products" 
+                  to="/products"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
-                  Products
+                  All Products
                 </Link>
               </li>
               <li>
                 <Link 
-                  to="/deals" 
+                  to="/products?featured=true"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
-                  Special Deals
+                  Featured Products
                 </Link>
               </li>
               <li>
                 <Link 
-                  to="/new-arrivals" 
+                  to="/products?sort=newest"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   New Arrivals
@@ -66,10 +72,10 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  to="/profile" 
+                  to="/cart"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
-                  My Account
+                  Shopping Cart
                 </Link>
               </li>
             </ul>
@@ -79,36 +85,36 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
             <ul className="space-y-2">
               <li>
-                <a 
-                  href="#" 
+                <Link 
+                  to="/shipping-policy"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Shipping Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="#" 
+                <Link 
+                  to="/returns"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Returns & Exchanges
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="#" 
+                <Link 
+                  to="/faq"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="#" 
+                <Link 
+                  to="/privacy-policy"
                   className="text-gray-300 hover:text-brand-primary transition-colors text-sm"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -118,15 +124,32 @@ export function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center space-x-2 text-gray-300 text-sm">
                 <Phone size={16} />
-                <span>+1 (555) 123-4567</span>
+                <a 
+                  href="tel:+15551234567"
+                  className="hover:text-brand-primary transition-colors"
+                >
+                  +1 (555) 123-4567
+                </a>
               </li>
               <li className="flex items-center space-x-2 text-gray-300 text-sm">
                 <Mail size={16} />
-                <span>iletisim@mustafabaser.net</span>
+                <a 
+                  href="mailto:contact@clickcart.com"
+                  className="hover:text-brand-primary transition-colors"
+                >
+                  contact@clickcart.com
+                </a>
               </li>
               <li className="flex items-center space-x-2 text-gray-300 text-sm">
                 <MapPin size={16} />
-                <span>123 Commerce St, NY 10001</span>
+                <a 
+                  href="https://maps.google.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-primary transition-colors"
+                >
+                  123 Commerce St, NY 10001
+                </a>
               </li>
             </ul>
           </div>

@@ -80,13 +80,27 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Pro
 
 export async function getProduct(id: string): Promise<Product | null> {
   try {
-    const { data, error } = await supabase
+    // First try to fetch by UUID
+    let { data, error } = await supabase
       .from('products')
       .select('*')
       .eq('id', id)
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
+    
+    // If no result found by UUID, try fetching by legacy ID format
+    if (!data) {
+      const { data: legacyData, error: legacyError } = await supabase
+        .from('products')
+        .select('*')
+        .eq('legacy_id', id)
+        .maybeSingle();
+
+      if (legacyError) throw legacyError;
+      data = legacyData;
+    }
+
     return data;
   } catch (error) {
     console.error('Error fetching product:', error);

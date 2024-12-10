@@ -33,7 +33,7 @@ export function Navbar() {
         : 'bg-white dark:bg-gray-900'
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <Store className="h-8 w-8 text-brand-primary group-hover:text-brand-dark transition-colors" />
